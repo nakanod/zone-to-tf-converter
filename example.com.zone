@@ -1,0 +1,20 @@
+$TTL 300
+$ORIGIN example.com.
+
+@ IN SOA ns1.example.net. namemaster.example.net. 1 3600 900 604800 3600
+ IN NS ns1.example.com.
+ IN NS ns2.example.com.
+ IN A 192.168.0.1
+
+www IN A 192.168.0.100
+www2 IN CNAME www.example.com.
+
+wiki IN CNAME wiki.example.net.
+
+@ IN MX 10 mx1.example.org.
+ IN MX 10 mx2.example.org.
+ IN TXT "v=spf1 include:_spf.example.org ~all"
+
+@ IN CAA 0 issue "ssl.example.org"
+
+blog.example.com. 3600 IN A 192.168.255.100
