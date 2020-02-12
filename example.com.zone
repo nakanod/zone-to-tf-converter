@@ -13,7 +13,7 @@ wiki IN CNAME wiki.example.net.
 
 @ IN MX 10 mx1.example.org.
  IN MX 10 mx2.example.org.
- IN TXT "v=spf1 include:_spf.example.org ~all"
+ IN TXT "v=spf1; include:_spf.example.org ~all"
 
 @ IN CAA 0 issue "ssl.example.org"
 
