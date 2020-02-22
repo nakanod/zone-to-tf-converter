@@ -1,0 +1,19 @@
+resource "aws_route53_zone" "{{ zone.defined_name }}" {
+  name = "{{ zone.origin }}"
+}
+
+{%- for rdataset in zone.rdataset %}
+{%- if rdataset.rdtype != 'SOA' and rdataset.rdtype != 'NS' %}
+resource "aws_route53_record" "{{ rdataset.defined_name }}" {
+  type = "{{ rdataset.rdtype }}"
+  ttl = {{ rdataset.ttl }}
+  name = {{ rdataset.name }}
+  zone_id = {{ rdataset.zone_id }}
+  records = [
+  {%- for rdata in rdataset.rdata %}
+    {{ rdata }},
+  {%- endfor %}
+  ]
+}
+{%- endif %}
+{%- endfor %}

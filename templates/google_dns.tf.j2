@@ -1,0 +1,21 @@
+resource "google_dns_managed_zone" "{{ zone.defined_name }}" {
+  name = "{{ zone.defined_name }}"
+  dns_name = "{{ zone.origin }}"
+  visibility = "public"
+}
+
+{%- for rdataset in zone.rdataset %}
+{%- if rdataset.rdtype != 'SOA' and rdataset.rdtype != 'NS' %}
+resource "google_dns_record_set" "{{ rdataset.defined_name }}" {
+  type = "{{ rdataset.rdtype }}"
+  ttl = {{ rdataset.ttl }}
+  name = {{ rdataset.name }}
+  managed_zone = {{ rdataset.managed_zone }}
+  rrdatas = [
+  {%- for rdata in rdataset.rdata %}
+    {{ rdata }},
+  {%- endfor %}
+  ]
+}
+{%- endif %}
+{%- endfor %}
