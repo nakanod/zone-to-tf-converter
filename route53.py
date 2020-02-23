@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import os.path
 
 import dns.zone
 import dns.rdatatype
@@ -48,10 +49,12 @@ def main():
         return
 
     zonefile = sys.argv[1]
+    template_dir = os.path.dirname(os.path.abspath(__file__)) + "/templates"
+    template_file = 'route53.tf.j2'
     zone = Route53Zone(zonefile)
-    loader = FileSystemLoader("templates")
+    loader = FileSystemLoader(template_dir)
     env = Environment(loader=loader)
-    template = env.get_template('route53.tf.j2')
+    template = env.get_template(template_file)
     render = template.render(zone=zone)
 
     print(render)
